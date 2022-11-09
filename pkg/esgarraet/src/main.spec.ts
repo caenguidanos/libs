@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import { Primitive } from "./main";
 
 class CheckoutAmount extends Primitive<number> {
-   constructor(private initial_value: number) {
+   constructor(readonly initial_value: number) {
       super(initial_value);
    }
 
