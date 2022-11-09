@@ -1,0 +1,31 @@
+{
+	"name": "esgarraet",
+	"version": "1.0.0",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/main.cjs",
+	"module": "./dist/main.mjs",
+	"types": "./dist/main.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/main.mjs",
+			"require": "./dist/main.cjs"
+		}
+	},
+	"scripts": {
+		"build:cjs": "esbuild src/main.ts --outfile=dist/main.cjs --format=cjs",
+		"build:esm": "esbuild src/main.ts --outfile=dist/main.mjs --format=esm",
+		"build": "pnpm build:esm && pnpm build:cjs && tsc",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage"
+	},
+	"devDependencies": {
+		"@vitest/coverage-c8": "0.25.1",
+		"esbuild": "0.15.13",
+		"typescript": "4.8.4",
+		"vite": "3.2.3",
+		"vitest": "0.25.1"
+	}
+}

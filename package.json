@@ -1,0 +1,17 @@
+{
+	"name": "libs",
+	"version": "1.0.0",
+	"description": "Collection of published libs",
+	"scripts": {
+		"format": "prettier --write ."
+	},
+	"keywords": [],
+	"license": "MIT",
+	"author": {
+		"name": "Cristian A. Enguídanos Nebot",
+		"email": "cristian.enguidanos.nebot@gmail.com"
+	},
+	"devDependencies": {
+		"prettier": "2.7.1"
+	}
+}
