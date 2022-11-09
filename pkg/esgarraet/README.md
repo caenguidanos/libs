@@ -14,28 +14,28 @@ npm i esgarraet
 import { Primitive } from "esgarraet";
 
 class CheckoutAmount extends Primitive<number> {
-	constructor(readonly initial_value: number) {
-		super(initial_value);
-	}
+   constructor(readonly initial_value: number) {
+      super(initial_value);
+   }
 
-	public charge_taxes_from_percent(tax: number): CheckoutAmount {
-		this.update(prev => prev + (prev * tax) / 100);
+   public charge_taxes_from_percent(tax: number): CheckoutAmount {
+      this.update(prev => prev + (prev * tax) / 100);
 
-		return this;
-	}
+      return this;
+   }
 
-	public apply_discount_from_value(quantity: number): CheckoutAmount {
-		this.update(prev => prev - quantity);
+   public apply_discount_from_value(quantity: number): CheckoutAmount {
+      this.update(prev => prev - quantity);
 
-		return this;
-	}
+      return this;
+   }
 
-	public emit(): number {
-		let value = this.currentValue();
-		this.destroy();
+   public emit(): number {
+      let value = this.currentValue();
+      this.destroy();
 
-		return value;
-	}
+      return value;
+   }
 }
 
 let amount = new CheckoutAmount(1_000);
