@@ -1,7 +1,14 @@
 {
    "name": "abanda",
-   "version": "1.0.0",
+   "version": "1.0.1",
    "type": "module",
+   "author": {
+      "name": "Cristian A. Enguídanos Nebot",
+      "url": "https://github.com/caenguidanos"
+   },
+   "repository": {
+      "url": "https://github.com/caenguidanos/libs/blob/main/pkg/abanda/README.md"
+   },
    "files": [
       "dist"
    ],

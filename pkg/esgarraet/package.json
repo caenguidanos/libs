@@ -1,7 +1,14 @@
 {
    "name": "esgarraet",
-   "version": "1.0.2",
+   "version": "1.0.3",
    "type": "module",
+   "author": {
+      "name": "Cristian A. Enguídanos Nebot",
+      "url": "https://github.com/caenguidanos"
+   },
+   "repository": {
+      "url": "https://github.com/caenguidanos/libs/blob/main/pkg/esgarraet/README.md"
+   },
    "files": [
       "dist"
    ],
