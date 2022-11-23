@@ -1,6 +1,6 @@
 # Esgarraet
 
-**Primitive** utility class.
+Minimal **Primitive** utility class (483b bytes).
 
 ### Install
 
