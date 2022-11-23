@@ -5,11 +5,16 @@
    "scripts": {
       "format": "prettier --write ."
    },
-   "keywords": [],
+   "keywords": [
+      "typescript",
+      "validator",
+      "http",
+      "primitive",
+      "minimal"
+   ],
    "license": "MIT",
    "author": {
-      "name": "Cristian A. Enguídanos Nebot",
-      "email": "cristian.enguidanos.nebot@gmail.com"
+      "name": "Cristian A. Enguídanos Nebot"
    },
    "devDependencies": {
       "prettier": "2.7.1"
