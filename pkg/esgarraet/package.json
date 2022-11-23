@@ -15,8 +15,8 @@
       }
    },
    "scripts": {
-      "build:cjs": "esbuild src/main.ts --outfile=dist/main.cjs --format=cjs",
-      "build:esm": "esbuild src/main.ts --outfile=dist/main.mjs --format=esm",
+      "build:cjs": "esbuild src/main.ts --outfile=dist/main.cjs --format=cjs --minify",
+      "build:esm": "esbuild src/main.ts --outfile=dist/main.mjs --format=esm --minify",
       "build": "pnpm build:esm && pnpm build:cjs && tsc",
       "test": "vitest",
       "test:coverage": "vitest run --coverage"
