@@ -1,6 +1,6 @@
 # Delsenyoret
 
-**Validator** utility class.
+**Validator** utility class (304 bytes).
 
 ### Install
 
