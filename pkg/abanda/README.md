@@ -33,7 +33,7 @@ http.intercept.response.add(async (request, response): Promise<Response> => {
       let ok = false;
       let retries = 1;
 
-      while (retries < 5 || ok) {
+      while (retries < 5 || !ok) {
          let r = await fetch(response.url, request); // Use platform fetch inside retries !!
          ok = r.ok;
          res = r;
