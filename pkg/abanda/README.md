@@ -10,31 +10,23 @@ npm i abanda
 
 ### Use
 
+
+##### Global headers
+
 ```ts
 import { http } from "abanda";
 
-/*
- * Set global headers
- */
 http.headers.set("authorization", "Bearer <TOKEN>");
 http.headers.set("x-target", "A");
 
-/*
- * Intercept requests
- */
-http.intercept.request.add((url, request): Promise<RequestInit> => {
-   let headers = request.headers as Headers;
+http.fetch("http://localhost:8080").then(response => response.json());
+```
 
-   headers.forEach((value, key) => {
-      console.log([url, { [key]: value }]);
-   });
+##### Intercept responses
 
-   return Promise.resolve(request);
-});
+```ts
+import { http } from "abanda";
 
-/*
- * Intercept responses
- */
 http.intercept.response.add(async (request, response): Promise<Response> => {
    let out: Response = response;
 
@@ -42,11 +34,8 @@ http.intercept.response.add(async (request, response): Promise<Response> => {
       let ok = response.ok;
       let retries = 1;
 
-      /*
-       * Use vanilla fetch inside retries !!
-       */
       while (retries < 5 || ok) {
-         let r = await fetch(response.url, request);
+         let r = await fetch(response.url, request); // Use platform fetch inside retries !!
          ok = r.ok;
          out = r;
          retries++;
@@ -56,9 +45,6 @@ http.intercept.response.add(async (request, response): Promise<Response> => {
    return out;
 });
 
-/*
- * Multiple times
- */
 http.intercept.response.add(async (request, response): Promise<Response> => {
    let out: Response = response;
 
@@ -71,8 +57,23 @@ http.intercept.response.add(async (request, response): Promise<Response> => {
    return out;
 });
 
-/*
- * Do fetch (web compliance)
- */
+http.fetch("http://localhost:8080").then(response => response.json());
+```
+
+##### Intercept requests
+
+```ts
+import { http } from "abanda";
+
+http.intercept.request.add((url, request): Promise<RequestInit> => {
+   let headers = request.headers as Headers;
+
+   headers.forEach((value, key) => {
+      console.log([url, { [key]: value }]);
+   });
+
+   return Promise.resolve(request);
+});
+
 http.fetch("http://localhost:8080").then(response => response.json());
 ```
