@@ -7,21 +7,21 @@ type HttpIntercept = {
 };
 
 class Http {
-   public headers: HttpHeaders = new Headers();
+   public readonly headers: HttpHeaders = new Headers();
 
-   public intercept: HttpIntercept = {
+   public readonly intercept: HttpIntercept = {
       request: new Set<HttpRequestInterceptor>(),
       response: new Set<HttpResponseInterceptor>(),
    };
 
-   public fetch: typeof globalThis.fetch = new Proxy(globalThis.fetch, {
+   public readonly fetch: typeof globalThis.fetch = new Proxy(globalThis.fetch, {
       apply: async (target, _, args: Parameters<typeof globalThis.fetch>): Promise<Response> => {
          let request: RequestInit = args[1] ?? { method: "GET" };
          let requestUrl: RequestInfo | URL = args[0];
 
-         let requestHeadersCustom: Headers = new Headers(request.headers);
-         this.headers.forEach((value, key) => requestHeadersCustom.append(key, value));
-         request.headers = requestHeadersCustom;
+         let requestHeaders: Headers = new Headers(request.headers);
+         this.headers.forEach((value, key) => requestHeaders.append(key, value));
+         request.headers = requestHeaders;
 
          for (let requestInterceptor of this.intercept.request) {
             request = await requestInterceptor(requestUrl, request);

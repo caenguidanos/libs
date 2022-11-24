@@ -10,7 +10,6 @@ npm i abanda
 
 ### Use
 
-
 ##### Global headers
 
 ```ts
@@ -28,33 +27,32 @@ http.fetch("http://localhost:8080").then(response => response.json());
 import { http } from "abanda";
 
 http.intercept.response.add(async (request, response): Promise<Response> => {
-   let out: Response = response;
+   let res: Response = response;
 
    if (response.status === 403) {
-      let ok = response.ok;
+      let ok = false;
       let retries = 1;
 
       while (retries < 5 || ok) {
          let r = await fetch(response.url, request); // Use platform fetch inside retries !!
          ok = r.ok;
-         out = r;
+         res = r;
          retries++;
       }
    }
 
-   return out;
+   return res;
 });
 
 http.intercept.response.add(async (request, response): Promise<Response> => {
-   let out: Response = response;
+   let res: Response = response;
 
    if (response.status === 401) {
       http.headers.set("authorization", "Bearer <NEW_TOKEN>");
-
-      out = await http.fetch(response.url, request);
+      res = await http.fetch(response.url, request); // with new token
    }
 
-   return out;
+   return res;
 });
 
 http.fetch("http://localhost:8080").then(response => response.json());
@@ -68,9 +66,7 @@ import { http } from "abanda";
 http.intercept.request.add((url, request): Promise<RequestInit> => {
    let headers = request.headers as Headers;
 
-   headers.forEach((value, key) => {
-      console.log([url, { [key]: value }]);
-   });
+   headers.forEach((value, key) => console.log([url, { [key]: value }]));
 
    return Promise.resolve(request);
 });
