@@ -1,9 +1,26 @@
 {
-   "name": "libs",
+   "name": "utils",
    "version": "1.0.0",
-   "description": "Collection of published libs",
+   "description": "Collection of utility libraries",
+   "author": {
+      "name": "Cristian A. Enguídanos Nebot",
+      "url": "https://github.com/caenguidanos"
+   },
+   "license": "MIT",
    "scripts": {
-      "format": "prettier --write ."
+      "format": "prettier --write .",
+      "build": "pnpm --filter './pkg/**' build",
+      "build:abanda": "pnpm --filter abanda build",
+      "build:esgarraet": "pnpm --filter esgarraet build",
+      "build:delsenyoret": "pnpm --filter delsenyoret build",
+      "test": "pnpm --filter './pkg/**' test:coverage",
+      "test:abanda": "pnpm --filter abanda test:coverage",
+      "test:esgarraet": "pnpm --filter esgarraet test:coverage",
+      "test:delsenyoret": "pnpm --filter delsenyoret test:coverage",
+      "publish": "pnpm --filter './pkg/**' publish",
+      "publish:abanda": "pnpm --filter abanda publish",
+      "publish:esgarraet": "pnpm --filter esgarraet publish",
+      "publish:delsenyoret": "pnpm --filter delsenyoret publish"
    },
    "keywords": [
       "typescript",
@@ -12,11 +29,7 @@
       "primitive",
       "minimal"
    ],
-   "license": "MIT",
-   "author": {
-      "name": "Cristian A. Enguídanos Nebot"
-   },
    "devDependencies": {
-      "prettier": "2.7.1"
+      "prettier": "2.8.0"
    }
 }
