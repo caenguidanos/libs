@@ -45,14 +45,14 @@ http.intercept.response.add(async (request, response): Promise<Response> => {
 });
 
 http.intercept.response.add(async (request, response): Promise<Response> => {
-   let res: Response = response;
+   let r: Response = response;
 
    if (response.status === 401) {
       http.headers.set("authorization", "Bearer <NEW_TOKEN>");
-      res = await http.fetch(response.url, request); // with new token
+      r = await http.fetch(response.url, request); // with new token
    }
 
-   return res;
+   return r;
 });
 
 http.fetch("http://localhost:8080").then(response => response.json());
@@ -65,9 +65,7 @@ import { http } from "abanda";
 
 http.intercept.request.add((url, request): Promise<RequestInit> => {
    let headers = request.headers as Headers;
-
-   headers.forEach((value, key) => console.log([url, { [key]: value }]));
-
+   headers.set("x-test", "B");
    return Promise.resolve(request);
 });
 
