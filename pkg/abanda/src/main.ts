@@ -16,21 +16,21 @@ class Http {
 
    public readonly fetch: typeof globalThis.fetch = new Proxy(globalThis.fetch, {
       apply: async (target, _, args: Parameters<typeof globalThis.fetch>): Promise<Response> => {
-         let request: RequestInit = args[1] ?? { method: "GET" };
-         let requestUrl: RequestInfo | URL = args[0];
+         let requestInfo: RequestInfo | URL = args[0];
+         let requestInit: RequestInit = args[1] ?? { method: "GET" };
+         let requestInitHeaders: Headers = new Headers(requestInit.headers);
 
-         let requestHeaders: Headers = new Headers(request.headers);
-         this.headers.forEach((value, key) => requestHeaders.append(key, value));
-         request.headers = requestHeaders;
+         this.headers.forEach((value, key) => requestInitHeaders.append(key, value));
+         requestInit.headers = requestInitHeaders;
 
          for (let requestInterceptor of this.intercept.request) {
-            request = await requestInterceptor(requestUrl, request);
+            requestInit = await requestInterceptor(requestInfo, requestInit);
          }
 
-         let response = await target(requestUrl, request);
+         let response = await target(requestInfo, requestInit);
 
          for (let responseInterceptor of this.intercept.response) {
-            response = await responseInterceptor(request, response);
+            responseInit = await responseInterceptor(requestInit, response);
          }
 
          return response;
