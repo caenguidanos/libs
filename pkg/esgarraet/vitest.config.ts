@@ -8,6 +8,10 @@ export default defineConfig({
       environment: "node",
       coverage: {
          reporter: ["text", "json", "html"],
+         lines: 100,
+         functions: 100,
+         statements: 100,
+         branches: 100,
       },
    },
 });
