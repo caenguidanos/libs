@@ -2,6 +2,10 @@
 
 Minimal **Primitive** utility class (483 bytes).
 
+<div style="display: flex; align-items: center; justify-content: center; margin: 1rem 0;">
+  <img width="512" height="512" style="border-radius: 10px;" src="./public/esgarraet.png">
+</div>
+
 ### Install
 
 ```bash
