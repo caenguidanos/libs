@@ -48,3 +48,7 @@ let amount_value = amount.charge_taxes_from_percent(21).apply_discount_from_valu
 
 console.log(amount_value);
 ```
+
+## License
+
+Esgarraet is distributed under [the MIT license](https://opensource.org/licenses/MIT)

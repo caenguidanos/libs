@@ -25,3 +25,7 @@ let product_name_validator = new Validator<string>()
 product_name_validator.exec("sku 37db5e2d-c36c-49c0-b8bd-ca750fd9e35a"); // throws
 product_name_validator.exec("sku-37db5e2d-c36c-49c0-b8bd-ca750fd9e35a"); // ok
 ```
+
+## License
+
+Delsenyoret is distributed under [the MIT license](https://opensource.org/licenses/MIT)

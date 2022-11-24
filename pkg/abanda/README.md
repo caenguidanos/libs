@@ -75,3 +75,7 @@ http.intercept.request.add((url, request): Promise<RequestInit> => {
 
 http.fetch("http://localhost:8080").then(response => response.json());
 ```
+
+## License
+
+Abanda is distributed under [the MIT license](https://opensource.org/licenses/MIT)
