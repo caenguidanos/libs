@@ -118,3 +118,37 @@ test("it should intercept response", async () => {
    let response = await http.fetch("http://localhost:8080/4");
    expect(response.status).toBe(201);
 });
+
+test("it should abort blacklisted resources", async () => {
+   let resource_1 = "http://localhost:8080/private-endpoint-1";
+   let resource_2 = "http://localhost:8080/private-endpoint-2";
+   let resource_3 = "http://localhost:8080/private-endpoint-3";
+
+   http.blacklist.add(resource_1);
+   http.blacklist.add(resource_2);
+   http.blacklist.add(resource_3);
+
+   try {
+      await http.fetch(resource_1);
+   } catch (error) {
+      // AbortError: https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+      expect(error).toBeInstanceOf(DOMException);
+      expect(error.message).toBe("The operation was aborted.");
+   }
+
+   try {
+      await http.fetch(resource_2);
+   } catch (error) {
+      // AbortError: https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+      expect(error).toBeInstanceOf(DOMException);
+      expect(error.message).toBe("The operation was aborted.");
+   }
+
+   try {
+      await http.fetch(resource_3);
+   } catch (error) {
+      // AbortError: https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+      expect(error).toBeInstanceOf(DOMException);
+      expect(error.message).toBe("The operation was aborted.");
+   }
+});

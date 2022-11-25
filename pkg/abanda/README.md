@@ -1,10 +1,17 @@
 # Abanda
 
-Minimal **HTTP** utility class **web compliance** (407 bytes).
+Minimal **HTTP** utility class **web compliance** (596 bytes).
 
 <div style="display: flex; align-items: center; justify-content: center; margin: 1rem 0;">
   <img width="512" height="512" style="border-radius: 10px;" src="./public/abanda.png">
 </div>
+
+## Features
+
+-  :helicopter: Global headers
+-  :vertical_traffic_light: Request interceptors
+-  :vertical_traffic_light: Response interceptors
+-  :underage: Resource blacklist
 
 ### Install
 
@@ -74,6 +81,18 @@ http.intercept.request.add((url, request): Promise<RequestInit> => {
 });
 
 http.fetch("http://localhost:8080").then(response => response.json());
+```
+
+##### Blacklist
+
+```ts
+import { http } from "abanda";
+
+let resource = "http://localhost:8080/private-endpoint";
+
+http.blacklist.add(resource);
+
+http.fetch(resource).then(response => response.json()); // AbortError
 ```
 
 ## License

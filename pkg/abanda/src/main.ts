@@ -7,13 +7,11 @@ type HttpRequestInterceptor = (url: RequestInfo | URL, request: RequestInit) => 
 interface HttpIntercept {
    request: Set<HttpRequestInterceptor>;
    response: Set<HttpResponseInterceptor>;
-};
+}
 
 class Http {
    public readonly blacklist = new Set<RequestInfo | URL>();
-
    public readonly headers: HttpHeaders = new Headers();
-   
    public readonly intercept: HttpIntercept = {
       request: new Set<HttpRequestInterceptor>(),
       response: new Set<HttpResponseInterceptor>(),
@@ -33,16 +31,8 @@ class Http {
          }
 
          if (this.blacklist.has(requestInfo)) {
-            let abortController = new AbortController();
-            
-            requestInit.signal = abortController.signal;
-
-            let [response] = await Promise.all([
-               target(requestInfo, requestInit),
-               Promise.resolve(abortController.signal())
-            ]);
-
-            return response;
+            requestInit.signal = this.blacklistAbortController.signal;
+            return target(requestInfo, requestInit);
          }
 
          let response = await target(requestInfo, requestInit);
@@ -54,6 +44,12 @@ class Http {
          return response;
       },
    });
+
+   private readonly blacklistAbortController = new AbortController();
+
+   constructor() {
+      this.blacklistAbortController.abort();
+   }
 }
 
 export let http = new Http();
