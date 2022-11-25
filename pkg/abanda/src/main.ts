@@ -10,6 +10,8 @@ interface HttpIntercept {
 };
 
 class Http {
+   public readonly blacklist = new Set<RequestInfo | URL>();
+
    public readonly headers: HttpHeaders = new Headers();
    
    public readonly intercept: HttpIntercept = {
@@ -25,11 +27,26 @@ class Http {
 
          this.headers.forEach((value, key) => requestInitHeaders.append(key, value));
          requestInit.headers = requestInitHeaders;
+
          for (let requestInterceptor of this.intercept.request) {
             requestInit = await requestInterceptor(requestInfo, requestInit);
          }
 
+         if (this.blacklist.has(requestInfo)) {
+            let abortController = new AbortController();
+            
+            requestInit.signal = abortController.signal;
+
+            let [response] = await Promise.all([
+               target(requestInfo, requestInit),
+               Promise.resolve(abortController.signal())
+            ]);
+
+            return response;
+         }
+
          let response = await target(requestInfo, requestInit);
+
          for (let responseInterceptor of this.intercept.response) {
             response = await responseInterceptor(requestInit, response);
          }
