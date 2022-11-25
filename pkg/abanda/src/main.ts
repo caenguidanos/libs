@@ -4,13 +4,14 @@ type HttpResponseInterceptor = (request: RequestInit, response: Response) => Pro
 
 type HttpRequestInterceptor = (url: RequestInfo | URL, request: RequestInit) => Promise<RequestInit>;
 
-type HttpIntercept = {
+interface HttpIntercept {
    request: Set<HttpRequestInterceptor>;
    response: Set<HttpResponseInterceptor>;
 };
 
 class Http {
    public readonly headers: HttpHeaders = new Headers();
+   
    public readonly intercept: HttpIntercept = {
       request: new Set<HttpRequestInterceptor>(),
       response: new Set<HttpResponseInterceptor>(),
@@ -19,7 +20,7 @@ class Http {
    public readonly fetch: typeof globalThis.fetch = new Proxy(globalThis.fetch, {
       apply: async (target, _, args: Parameters<typeof globalThis.fetch>): Promise<Response> => {
          let requestInfo: RequestInfo | URL = args[0];
-         let requestInit: RequestInit = args[1] ?? { method: "GET" };
+         let requestInit: RequestInit = args[1] ?? {};
          let requestInitHeaders: Headers = new Headers(requestInit.headers);
 
          this.headers.forEach((value, key) => requestInitHeaders.append(key, value));
