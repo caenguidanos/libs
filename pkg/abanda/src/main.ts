@@ -19,20 +19,20 @@ class Http {
 
    public readonly fetch: typeof globalThis.fetch = new Proxy(globalThis.fetch, {
       apply: async (target, _, args: Parameters<typeof globalThis.fetch>): Promise<Response> => {
-         let requestInfo: RequestInfo | URL = args[0];
-         let requestInit: RequestInit = args[1] ?? {};
-         let requestInitHeaders: Headers = new Headers(requestInit.headers);
+         let requestInfo: Parameters<typeof globalThis.fetch>[0] = args[0];
+         let requestInit: Parameters<typeof globalThis.fetch>[1] = args[1] ?? {};
 
+         if (this.blacklist.has(requestInfo)) {
+            requestInit.signal = this.abortedController.signal;
+            return target(requestInfo, requestInit);
+         }
+
+         let requestInitHeaders = new Headers(requestInit.headers);
          this.headers.forEach((value, key) => requestInitHeaders.append(key, value));
          requestInit.headers = requestInitHeaders;
 
          for (let requestInterceptor of this.intercept.request) {
             requestInit = await requestInterceptor(requestInfo, requestInit);
-         }
-
-         if (this.blacklist.has(requestInfo)) {
-            requestInit.signal = this.blacklistAbortController.signal;
-            return target(requestInfo, requestInit);
          }
 
          let response = await target(requestInfo, requestInit);
@@ -45,10 +45,10 @@ class Http {
       },
    });
 
-   private readonly blacklistAbortController = new AbortController();
+   private readonly abortedController = new AbortController();
 
    constructor() {
-      this.blacklistAbortController.abort();
+      this.abortedController.abort();
    }
 }
 
