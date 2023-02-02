@@ -31,7 +31,7 @@ export class Primitive<K> {
       }
    }
 
-   protected updateFromPipe(...operators: PrimitivePipeOperator<K, K>[]): void {
+   protected pipe(...operators: PrimitivePipeOperator<K, K>[]): void {
       this._checkDestroy();
 
       let result = operators.reduce((acc, fn) => fn(acc), this._value);

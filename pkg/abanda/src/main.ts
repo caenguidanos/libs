@@ -1,7 +1,5 @@
 type HttpHeaders = Headers;
-
 type HttpResponseInterceptor = (request: RequestInit, response: Response) => Promise<Response>;
-
 type HttpRequestInterceptor = (url: RequestInfo | URL, request: RequestInit) => Promise<RequestInit>;
 
 interface HttpIntercept {
@@ -10,8 +8,10 @@ interface HttpIntercept {
 }
 
 class Http {
-   public readonly blacklist = new Set<RequestInfo | URL>();
    public readonly headers: HttpHeaders = new Headers();
+
+   public readonly blacklist = new Set<RequestInfo | URL>();
+
    public readonly intercept: HttpIntercept = {
       request: new Set<HttpRequestInterceptor>(),
       response: new Set<HttpResponseInterceptor>(),
@@ -36,7 +36,6 @@ class Http {
          }
 
          let response = await target(requestInfo, requestInit);
-
          for (let responseInterceptor of this.intercept.response) {
             response = await responseInterceptor(requestInit, response);
          }

@@ -21,7 +21,7 @@ class CheckoutAmount extends Primitive<number> {
 
    public apply_discount_from_values(quantities: number[]): CheckoutAmount {
       let operators = quantities.map(quantity => (value: number) => value - quantity);
-      this.updateFromPipe(...operators);
+      this.pipe(...operators);
 
       return this;
    }

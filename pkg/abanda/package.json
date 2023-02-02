@@ -1,6 +1,6 @@
 {
    "name": "abanda",
-   "version": "1.0.4",
+   "version": "1.0.5",
    "type": "module",
    "author": {
       "name": "Cristian A. Enguídanos Nebot",
@@ -30,10 +30,10 @@
       "test:coverage": "vitest run --coverage"
    },
    "devDependencies": {
-      "@vitest/coverage-c8": "0.25.1",
-      "esbuild": "0.15.13",
-      "typescript": "4.8.4",
-      "vite": "3.2.3",
-      "vitest": "0.25.1"
+      "@vitest/coverage-c8": "0.28.3",
+      "esbuild": "0.17.5",
+      "typescript": "4.9.5",
+      "vite": "4.1.1",
+      "vitest": "0.28.3"
    }
 }
