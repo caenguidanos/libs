@@ -1,5 +1,5 @@
 {
-   "name": "utils",
+   "name": "libs",
    "version": "1.0.0",
    "description": "Collection of utility libraries",
    "author": {
@@ -22,7 +22,6 @@
       "test:abanda": "pnpm --filter abanda test:coverage",
       "test:esgarraet": "pnpm --filter esgarraet test:coverage",
       "test:delsenyoret": "pnpm --filter delsenyoret test:coverage",
-      "publish": "pnpm --filter './pkg/**' publish",
       "publish:abanda": "pnpm --filter abanda publish",
       "publish:esgarraet": "pnpm --filter esgarraet publish",
       "publish:delsenyoret": "pnpm --filter delsenyoret publish"
