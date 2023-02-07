@@ -17,7 +17,7 @@ npm i delsenyoret
 ```ts
 import { Validator } from "delsenyoret";
 
-let product_name_validator = new Validator<string>()
+let product_name_validator = new Validator<string>("product")
    .addRule("is_string", value => typeof value === "string")
    .addRule("is_not_empty", value => value.length > 0)
    .addRule("starts_with_pattern", value => value.startsWith("sku-"));
