@@ -4,7 +4,7 @@ type ValidationName = string;
 export class Validator<ValueType> {
    private readonly validations = new Map<ValidationName, Validation<ValueType>>();
 
-   constructor(private readonly key: string) {}
+   constructor(public readonly key: string) {}
 
    public get rules(): string[] {
       return [...this.validations.keys()];
@@ -24,11 +24,7 @@ export class Validator<ValueType> {
 
    public exec(value: ValueType): void {
       this.validations.forEach((validation, name) => {
-         let validation_result: boolean = validation(value);
-
-         if (!validation_result) {
-            throw new Error(`Validation failed for: ${this.key}::${name}.`);
-         }
+         if (!validation(value)) throw new Error(`Validation failed for ${this.key}::${name}.`);
       });
    }
 }
