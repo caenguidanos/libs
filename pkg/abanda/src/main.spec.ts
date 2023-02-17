@@ -63,7 +63,9 @@ afterAll(() => {
 test("it should return authorization header", async () => {
    http.headers.set("authorization", "Bearer 1234");
 
-   let response = await http.fetch("http://localhost:8080/1");
+   http.base = "http://localhost:8080";
+
+   let response = await http.fetch("/1");
    let responseBody = await response.text();
    expect(responseBody).toBe("Bearer 1234");
 });
@@ -72,57 +74,67 @@ test("it should return multiple authorization headers", async () => {
    http.headers.set("authorization", "Bearer 1234");
    http.headers.set("role", "viewer");
 
-   let response = await http.fetch("http://localhost:8080/2");
+   http.base = "http://localhost:8080";
+
+   let response = await http.fetch("/2");
    let responseBody = await response.text();
    let expected = JSON.stringify({ authorization: "Bearer 1234", role: "viewer" });
    expect(responseBody).toBe(expected);
 });
 
 test("it should intercept request and add header", async () => {
+   http.base = "http://localhost:8080";
+
    http.intercept.request.add(async (_url, request) => {
       let headers = request.headers as Headers;
       headers.set("boom", "1234");
       return Promise.resolve(request);
    });
 
-   let response = await http.fetch("http://localhost:8080/3");
+   let response = await http.fetch("/3");
    let responseBody = await response.text();
    expect(responseBody).toBe("1234");
 });
 
 test("it should intercept request and error", async () => {
+   http.base = "http://localhost:8080";
+
    http.intercept.request.add(async url => {
       throw new Error(url as string);
    });
 
    try {
-      await http.fetch("http://localhost:8080/0");
+      await http.fetch("/0");
    } catch (error) {
       expect(error.message).toBe("http://localhost:8080/0");
    }
 });
 
 test("it should intercept response", async () => {
+   http.base = "http://localhost:8080";
+
    http.intercept.response.add(async (request, response) => {
       let authorizedResponse: Response = response;
 
       if (response.status === 401) {
          let newToken = await response.text();
          http.headers.set("authorization", newToken);
-         authorizedResponse = await http.fetch("http://localhost:8080/5", request);
+         authorizedResponse = await http.fetch("/5", request);
       }
 
       return authorizedResponse;
    });
 
-   let response = await http.fetch("http://localhost:8080/4");
+   let response = await http.fetch("/4");
    expect(response.status).toBe(201);
 });
 
 test("it should abort blacklisted resources", async () => {
-   let resource_1 = "http://localhost:8080/private-endpoint-1";
-   let resource_2 = "http://localhost:8080/private-endpoint-2";
-   let resource_3 = "http://localhost:8080/private-endpoint-3";
+   http.base = "http://localhost:8080";
+
+   let resource_1 = "/private-endpoint-1";
+   let resource_2 = "/private-endpoint-2";
+   let resource_3 = "/private-endpoint-3";
 
    http.blacklist.add(resource_1);
    http.blacklist.add(resource_2);

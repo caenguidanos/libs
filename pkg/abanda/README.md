@@ -32,6 +32,16 @@ http.headers.set("x-target", "A");
 http.fetch("http://localhost:8080").then(response => response.json());
 ```
 
+##### Base href
+
+```ts
+import { http } from "abanda";
+
+http.base = "http://localhost:8080";
+
+http.fetch("/").then(response => response.json());
+```
+
 ##### Intercept responses
 
 ```ts

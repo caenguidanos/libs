@@ -17,10 +17,18 @@ class Http {
       response: new Set<HttpResponseInterceptor>(),
    };
 
+   public base: string = "";
+
    public readonly fetch: typeof globalThis.fetch = new Proxy(globalThis.fetch, {
       apply: async (target, _, args: Parameters<typeof globalThis.fetch>): Promise<Response> => {
          let requestInfo: Parameters<typeof globalThis.fetch>[0] = args[0];
          let requestInit: Parameters<typeof globalThis.fetch>[1] = args[1] ?? {};
+
+         if (this.base) {
+            if (typeof requestInfo === "string") {
+               requestInfo = this.base + requestInfo;
+            }
+         }
 
          if (this.blacklist.has(requestInfo)) {
             requestInit.signal = this.abortedController.signal;
