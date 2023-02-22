@@ -9,6 +9,7 @@ Minimal **HTTP** utility class **web compliance** (596 bytes).
 ## Features
 
 -  :helicopter: Global headers
+-  :vertical_traffic_light: Route interceptors
 -  :vertical_traffic_light: Request interceptors
 -  :vertical_traffic_light: Response interceptors
 -  :underage: Resource blacklist
@@ -40,6 +41,21 @@ import { http } from "abanda";
 http.base = "http://localhost:8080";
 
 http.fetch("/").then(response => response.json());
+```
+
+##### Intercept routes
+
+```ts
+import { http } from "abanda";
+
+http.intercept.route.set(/\/ping$/, async (url, { method, body }) => {
+   return new Response(url + method + body {
+      status: 201,
+      headers: { "content-type": "text/plain" },
+   });
+});
+
+http.fetch("/ping", { method: "POST", body: "ping" }).then(response => response.text()); // "/pingGETping"
 ```
 
 ##### Intercept responses

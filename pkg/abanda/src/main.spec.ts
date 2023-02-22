@@ -129,6 +129,35 @@ test("it should intercept response", async () => {
    expect(response.status).toBe(201);
 });
 
+test("it should intercept route I", async () => {
+   http.base = "http://localhost:8080";
+
+   http.intercept.route.set(/\/4$/, async () => {
+      return new Response("alojomora", { status: 201, headers: { "content-type": "text/plain" } });
+   });
+
+   let response = await http.fetch("/4");
+
+   expect(response.status).toBe(201);
+   expect(await response.text()).toBe("alojomora");
+});
+
+test("it should intercept route II", async () => {
+   http.intercept.route.set(/\/ping$/, async (info, request) => {
+      return new Response(request.body, {
+         status: 201,
+         headers: { "content-type": "text/plain" },
+      });
+   });
+
+   let response = await http.fetch("http://localhost:8080/ping", {
+      body: JSON.stringify({ h: 1 }),
+   });
+
+   expect(response.status).toBe(201);
+   expect(await response.text()).toBe(JSON.stringify({ h: 1 }));
+});
+
 test("it should abort blacklisted resources", async () => {
    http.base = "http://localhost:8080";
 
