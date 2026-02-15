@@ -42,7 +42,6 @@ class Http {
     response: new Set<HttpResponseInterceptor>(),
     route: new Map<RegExp, HttpRouteInterceptor>(),
   };
-	
   public base: string = "";
 
   public readonly fetch: typeof globalThis.fetch = new Proxy(
